@@ -337,6 +337,36 @@
       text-decoration: none;
     }
     footer a:hover { text-decoration: underline; }
+
+    .choice-list {
+      padding-left: 1.1rem;
+      margin: 0.35rem 0 0;
+    }
+    .choice-list li {
+      font-size: 13px;
+      color: var(--text-sec);
+      margin-bottom: 0.45rem;
+      line-height: 1.6;
+    }
+    .comparison-grid {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+    @media (min-width: 620px) {
+      .comparison-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .comparison-box {
+      background: var(--bg-surface);
+      border: 0.5px solid var(--border-lt);
+      border-radius: var(--r-md);
+      padding: 0.85rem 1rem;
+    }
+    .comparison-box p {
+      font-size: 13px;
+      color: var(--text-pri);
+      line-height: 1.65;
+    }
     .source-list {
       display: flex;
       flex-wrap: wrap;
@@ -375,6 +405,36 @@ Problem: [paste problem here]</pre>
       <button class="copy-btn" onclick="copyTemplate('start-here')">
         <i class="ti ti-copy" aria-hidden="true"></i> Copy template
       </button>
+    </div>
+  </div>
+
+  <div class="card" aria-labelledby="choose-title">
+    <div class="card-head"><span class="badge badge-blue">Choose a method</span></div>
+    <p class="tech-name" id="choose-title">Which prompt should you use?</p>
+    <p class="tech-desc">Start with the general prompt above. Then choose a more specific technique when the problem has a clear failure mode.</p>
+    <ul class="choice-list">
+      <li><strong>Show your work:</strong> use when the problem is straightforward but multi-step.</li>
+      <li><strong>Step-back:</strong> use when you are not sure which equation, principle, or model applies.</li>
+      <li><strong>Role prompting:</strong> use when domain judgment matters, such as optics, structures, circuits, or fluids.</li>
+      <li><strong>Few-shot:</strong> use when you want the same format across several similar problems.</li>
+      <li><strong>Program of thought:</strong> use when there are many calculations, unit conversions, or numerical substitutions.</li>
+      <li><strong>Meta prompting:</strong> use when you want a reusable workflow for a full problem set or study session.</li>
+    </ul>
+  </div>
+
+  <div class="card" aria-labelledby="better-prompt-title">
+    <div class="card-head"><span class="badge badge-amber">Prompt upgrade</span></div>
+    <p class="tech-name" id="better-prompt-title">Weak prompt vs. better prompt</p>
+    <p class="tech-desc">The better prompt does not merely ask for an answer. It tells the model what to expose: knowns, equation choice, sign convention, substitutions, checks, and final result.</p>
+    <div class="comparison-grid">
+      <div class="comparison-box">
+        <p class="sub-label">Weak prompt</p>
+        <p>Solve this lens problem.</p>
+      </div>
+      <div class="comparison-box">
+        <p class="sub-label">Better prompt</p>
+        <p>Solve this lens problem step by step. List knowns and unknowns with units, state the sign convention, identify the lens equation, solve algebraically before substituting numbers, and check whether the image distance and magnification make physical sense.</p>
+      </div>
     </div>
   </div>
 
@@ -517,7 +577,7 @@ Problem: [your problem]</pre>
     <div class="card">
       <div class="card-head"><span class="badge badge-teal">Pattern matching</span></div>
       <p class="tech-name">Few-shot prompting</p>
-      <p class="tech-desc">Provide one or two fully worked examples before your actual question. The model learns the desired format, level of rigor, and notation style from those examples — extremely useful when you need consistent output structure across a set of similar problems.</p>
+      <p class="tech-desc">Provide one or two fully worked examples before your actual question. The model learns the desired format, level of rigor, and notation style from those examples — extremely useful when you need consistent output structure across a set of similar problems. Few-shot examples work best when the example is correct and uses the same convention as the new problem; a flawed example can cause the model to repeat the same mistake.</p>
 
       <p class="sub-label">Best for</p>
       <ul class="when-list">
@@ -558,7 +618,7 @@ Problem: [your problem]</pre>
     <div class="card">
       <div class="card-head"><span class="badge badge-coral">Computation-heavy problems</span></div>
       <p class="tech-name">Program of thought (PoT) prompting</p>
-      <p class="tech-desc">Ask the model to express the solution as executable Python code rather than prose arithmetic. This offloads numerical computation to an interpreter, eliminating floating-point reasoning errors that LLMs can make. Ideal for problems with many numerical substitutions or iterative calculations.</p>
+      <p class="tech-desc">Ask the model to express the solution as executable Python code rather than prose arithmetic. This offloads numerical computation to an interpreter, reducing floating-point and arithmetic errors that LLMs can make. Use numerical code for computation-heavy problems. For derivations, ask for symbolic algebra first, then numerical substitution.</p>
 
       <p class="sub-label">Best for</p>
       <ul class="when-list">
@@ -648,6 +708,16 @@ first problem.</pre>
   </div>
 
   <div class="tip-card">
+    <i class="ti ti-compass" aria-hidden="true"></i>
+    <p><strong>Use AI to structure the solution, not as the final authority.</strong> AI is often useful for organizing knowns, identifying likely principles, and exposing intermediate steps. Do not treat the final number as authoritative until you verify the equation choice, signs, units, and arithmetic.</p>
+  </div>
+
+  <div class="tip-card">
+    <i class="ti ti-arrows-left-right" aria-hidden="true"></i>
+    <p><strong>Watch sign conventions closely.</strong> In optics, mechanics, and circuits, the model may choose a different sign convention than your textbook, instructor, or software. Always specify the convention you want, or ask the model to state its convention before solving.</p>
+  </div>
+
+  <div class="tip-card">
     <i class="ti ti-ruler-measure" aria-hidden="true"></i>
     <p><strong>Always state units and sign conventions explicitly.</strong> Never assume the model will choose your convention. Write "u = −30 cm (object distance, negative = real object)" rather than just "u = 30 cm."</p>
   </div>
@@ -665,6 +735,33 @@ first problem.</pre>
   <div class="tip-card">
     <i class="ti ti-refresh" aria-hidden="true"></i>
     <p><strong>Use self-consistency for critical results.</strong> Run the same prompt 2–3 times. If answers diverge, ask the model to identify which step differs and resolve the conflict explicitly.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Audit template -->
+  <h2>Audit an AI-generated solution</h2>
+  <p class="section-desc">Use this when you already have an answer and want the model to check it for equation-choice, sign, unit, algebra, or arithmetic errors before you trust the final number.</p>
+
+  <div class="example-block">
+    <div class="example-box">
+      <pre>Audit this solution. Do not redo the problem from
+scratch unless needed.
+1. Check whether the governing equation is appropriate.
+2. Check the sign convention.
+3. Check unit conversions.
+4. Check each algebraic step.
+5. Check arithmetic.
+6. Identify the first incorrect step, if any.
+7. Provide a corrected final answer only after
+   explaining the error.
+
+Solution to audit:
+[paste solution here]</pre>
+    </div>
+    <button class="copy-btn" onclick="copyTemplate('audit')">
+      <i class="ti ti-copy" aria-hidden="true"></i> Copy template
+    </button>
   </div>
 
   <div class="divider"></div>
@@ -726,7 +823,8 @@ Problem: [your problem]</pre>
     'fewshot': 'Solve optics problems using this exact format:\n\nEXAMPLE:\nProblem: An object is 30 cm in front of a concave mirror with focal length 10 cm. Find image distance.\nKnown: u = -30 cm, f = -10 cm (mirror convention)\nEquation: 1/v + 1/u = 1/f\nSolve: 1/v = 1/f - 1/u = 1/(-10) - 1/(-30) = -3/30 + 1/30 = -2/30\nResult: v = -15 cm (real image, 15 cm in front of mirror)\nCheck: |m| = |v/u| = 15/30 = 0.5 ✓\n\nNow solve using the same format:\nProblem: [your problem]',
     'pot': 'Solve the following engineering/physics problem by writing Python code.\nRequirements:\n— Define all known variables with comments showing units.\n— Use scipy or numpy if needed.\n— Print each intermediate result labeled with its physical meaning and units.\n— Print the final answer clearly.\n— Do not use symbolic libraries; compute numerically.\n\nProblem: [your problem]',
     'meta': 'When I give you a physics or engineering problem, always follow this procedure:\n\nStep 1 — Classify: identify the domain (mechanics, optics, thermodynamics, etc.)\nStep 2 — Draw: describe a labeled diagram or free-body diagram in words.\nStep 3 — Formulate: list all applicable equations with variable definitions.\nStep 4 — Solve: work algebraically before substituting numbers.\nStep 5 — Compute: substitute values, track units at every step.\nStep 6 — Verify: dimensional analysis + order-of-magnitude sanity check.\nStep 7 — Summarize: one-line result with value, units, and direction (if a vector).\n\nAcknowledge this procedure, then wait for my first problem.',
-    '4phase': 'Solve this problem in 4 phases:\n1. Representation — restate the problem in your own words, draw a word diagram, list knowns/unknowns.\n2. Strategy — identify which law or principle applies and why; rule out alternatives.\n3. Execution — solve step by step with units at every line.\n4. Evaluation — does the answer make physical sense? Check limiting cases if applicable.\n\nProblem: [your problem]'
+    '4phase': 'Solve this problem in 4 phases:\n1. Representation — restate the problem in your own words, draw a word diagram, list knowns/unknowns.\n2. Strategy — identify which law or principle applies and why; rule out alternatives.\n3. Execution — solve step by step with units at every line.\n4. Evaluation — does the answer make physical sense? Check limiting cases if applicable.\n\nProblem: [your problem]',
+    'audit': 'Audit this solution. Do not redo the problem from scratch unless needed.\n1. Check whether the governing equation is appropriate.\n2. Check the sign convention.\n3. Check unit conversions.\n4. Check each algebraic step.\n5. Check arithmetic.\n6. Identify the first incorrect step, if any.\n7. Provide a corrected final answer only after explaining the error.\n\nSolution to audit:\n[paste solution here]'
   };
 
   function copyTemplate(key) {
