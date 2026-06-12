@@ -337,6 +337,15 @@
       text-decoration: none;
     }
     footer a:hover { text-decoration: underline; }
+    .source-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem 0.45rem;
+      align-items: center;
+      font-size: 11px;
+      color: var(--text-ter);
+      line-height: 1.7;
+    }
   </style>
 </head>
 <body>
@@ -344,10 +353,33 @@
 
   <p class="section-label">Reference guide</p>
   <h1>Prompting for STEM math problems</h1>
-  <p class="intro-text">Physics · Optics · Engineering — six techniques and ready-to-copy templates for getting precise, step-by-step solutions from an AI language model.</p>
+  <p class="intro-text">Physics · Optics · Engineering — six techniques and ready-to-copy templates for getting precise, auditable solutions from an AI language model. Built for students, tutors, engineers, and technically curious users who want cleaner setup, better unit tracking, and fewer hidden math mistakes.</p>
+
+  <div class="card" aria-labelledby="start-here-title">
+    <div class="card-head"><span class="badge badge-teal">Start here</span></div>
+    <p class="tech-name" id="start-here-title">Best general-purpose STEM prompt</p>
+    <p class="tech-desc">Use this when you want one reliable default prompt for physics, optics, engineering, or applied math problems.</p>
+    <div class="example-block">
+      <div class="example-box">
+        <pre>You are solving a physics or engineering problem.
+1. List knowns and unknowns with units.
+2. Identify the governing law or equation.
+3. State assumptions and sign conventions.
+4. Solve algebraically before substituting numbers.
+5. Substitute values with units.
+6. Check dimensional consistency and reasonableness.
+7. Give the final answer clearly.
+
+Problem: [paste problem here]</pre>
+      </div>
+      <button class="copy-btn" onclick="copyTemplate('start-here')">
+        <i class="ti ti-copy" aria-hidden="true"></i> Copy template
+      </button>
+    </div>
+  </div>
 
   <div class="tab-bar" role="tablist" aria-label="Prompting techniques">
-    <button class="tab-btn active" role="tab" aria-selected="true"  aria-controls="panel-cot"      onclick="showTab('cot')">Chain of thought</button>
+    <button class="tab-btn active" role="tab" aria-selected="true"  aria-controls="panel-cot"      onclick="showTab('cot')">Show your work</button>
     <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="panel-stepback" onclick="showTab('stepback')">Step-back</button>
     <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="panel-role"     onclick="showTab('role')">Role prompting</button>
     <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="panel-fewshot"  onclick="showTab('fewshot')">Few-shot</button>
@@ -359,8 +391,8 @@
   <div class="tab-panel active" id="panel-cot" role="tabpanel">
     <div class="card">
       <div class="card-head"><span class="badge badge-blue">Most effective</span></div>
-      <p class="tech-name">Chain-of-thought (CoT) prompting</p>
-      <p class="tech-desc">Instructs the model to verbalize every intermediate reasoning step before giving the final answer. Instead of "solve this," you tell it to "show your work." This dramatically reduces errors in multi-step calculations by forcing the model to commit to sub-results sequentially — much like a student writing out their work.</p>
+      <p class="tech-name">Show-your-work prompting</p>
+      <p class="tech-desc">Ask the model to show the key intermediate calculations, units, assumptions, and checks before giving the final answer. The goal is not hidden reasoning; the goal is an auditable solution path that makes formula choice, substitutions, and unit handling easier to verify.</p>
 
       <p class="sub-label">Best for</p>
       <ul class="when-list">
@@ -374,8 +406,10 @@
       <div class="example-block">
         <div class="example-box">
           <pre>Append this to any question:
-"Think step by step and show each intermediate
-result with units before proceeding to the next."</pre>
+"Solve this step by step. Show the governing equations,
+substitutions, units, intermediate numerical results,
+and final answer. Keep the reasoning concise but
+complete enough to audit."</pre>
         </div>
         <button class="copy-btn" onclick="copyTemplate('cot-zero')">
           <i class="ti ti-copy" aria-hidden="true"></i> Copy phrase
@@ -385,13 +419,14 @@ result with units before proceeding to the next."</pre>
       <p class="sub-label" style="margin-top:1rem;">Full CoT template for physics</p>
       <div class="example-block">
         <div class="example-box">
-          <pre>You are solving a physics problem. Work through it step by step:
+          <pre>You are solving a physics problem. Show the work clearly:
 1. List all known variables with units.
 2. Identify the governing equation(s).
-3. Solve algebraically before substituting numbers.
-4. Substitute values and compute each step.
-5. Check units at each step using dimensional analysis.
-6. State the final answer with correct significant
+3. State assumptions and sign conventions.
+4. Solve algebraically before substituting numbers.
+5. Substitute values and compute each step.
+6. Check units using dimensional analysis.
+7. State the final answer with correct significant
    figures and units.
 
 Problem: [paste your problem here]</pre>
@@ -408,7 +443,7 @@ Problem: [paste your problem here]</pre>
     <div class="card">
       <div class="card-head"><span class="badge badge-teal">Strong for STEM</span></div>
       <p class="tech-name">Step-back prompting</p>
-      <p class="tech-desc">Before solving, ask the model to first identify the underlying physics principles or engineering concepts involved. Grounding in first principles reduces hallucinations and ensures the right formula family is invoked. Research showed up to 27% improvement on MMLU Physics and Chemistry tasks using this technique.</p>
+      <p class="tech-desc">Before solving, ask the model to first identify the underlying physics principles or engineering concepts involved. Grounding in first principles reduces hallucinations and ensures the right formula family is invoked. In the original Step-Back Prompting paper, the method improved PaLM-2L results on MMLU Physics and Chemistry by 7 and 11 percentage points, respectively.</p>
 
       <p class="sub-label">Best for</p>
       <ul class="when-list">
@@ -608,6 +643,11 @@ first problem.</pre>
   <h2>General rules for STEM prompts</h2>
 
   <div class="tip-card">
+    <i class="ti ti-shield-check" aria-hidden="true"></i>
+    <p><strong>Verify important answers independently.</strong> For graded work, engineering decisions, or safety-critical calculations, check the final result with a trusted source, calculator, code, or human expert. AI models can still choose the wrong equation, mishandle signs, or make arithmetic mistakes.</p>
+  </div>
+
+  <div class="tip-card">
     <i class="ti ti-ruler-measure" aria-hidden="true"></i>
     <p><strong>Always state units and sign conventions explicitly.</strong> Never assume the model will choose your convention. Write "u = −30 cm (object distance, negative = real object)" rather than just "u = 30 cm."</p>
   </div>
@@ -660,15 +700,27 @@ Problem: [your problem]</pre>
   </div>
 
   <footer>
-    <p>Sources: <a href="https://www.promptingguide.ai/" target="_blank" rel="noopener">Prompt Engineering Guide (promptingguide.ai)</a> · <a href="https://learnprompting.org/docs/reliability/math" target="_blank" rel="noopener">MathPrompter (learnprompting.org)</a> · Step-Back Prompting (ICLR 2024) · RAISE paper (arXiv 2506.08625) · Physics Olympiad LLM study (arXiv 2505.09438)</p>
+    <div class="source-list" aria-label="Sources">
+      <strong>Sources:</strong>
+      <a href="https://www.promptingguide.ai/" target="_blank" rel="noopener">Prompt Engineering Guide</a>
+      <span>·</span>
+      <a href="https://learnprompting.org/docs/reliability/math" target="_blank" rel="noopener">Learn Prompting: MathPrompter</a>
+      <span>·</span>
+      <a href="https://arxiv.org/abs/2310.06117" target="_blank" rel="noopener">Step-Back Prompting</a>
+      <span>·</span>
+      <a href="https://arxiv.org/abs/2506.08625" target="_blank" rel="noopener">RAISE paper</a>
+      <span>·</span>
+      <a href="https://arxiv.org/abs/2505.09438" target="_blank" rel="noopener">Physics Olympiad LLM study</a>
+    </div>
   </footer>
 
 </div>
 
 <script>
   var templates = {
-    'cot-zero': 'Think step by step and show each intermediate result with units before proceeding to the next.',
-    'cot-full': 'You are solving a physics problem. Work through it step by step:\n1. List all known variables with units.\n2. Identify the governing equation(s).\n3. Solve algebraically before substituting numbers.\n4. Substitute values and compute each step.\n5. Check units at each step using dimensional analysis.\n6. State the final answer with correct significant figures and units.\n\nProblem: [paste your problem here]',
+    'start-here': 'You are solving a physics or engineering problem.\n1. List knowns and unknowns with units.\n2. Identify the governing law or equation.\n3. State assumptions and sign conventions.\n4. Solve algebraically before substituting numbers.\n5. Substitute values with units.\n6. Check dimensional consistency and reasonableness.\n7. Give the final answer clearly.\n\nProblem: [paste problem here]',
+    'cot-zero': 'Solve this step by step. Show the governing equations, substitutions, units, intermediate numerical results, and final answer. Keep the reasoning concise but complete enough to audit.',
+    'cot-full': 'You are solving a physics problem. Show the work clearly:\n1. List all known variables with units.\n2. Identify the governing equation(s).\n3. State assumptions and sign conventions.\n4. Solve algebraically before substituting numbers.\n5. Substitute values and compute each step.\n6. Check units using dimensional analysis.\n7. State the final answer with correct significant figures and units.\n\nProblem: [paste your problem here]',
     'stepback': '— Phase 1: Principle extraction —\n"You are an expert physicist. What are the fundamental principles and governing equations relevant to solving the following problem? Do not solve it yet.\n\nProblem: [your problem]"\n\n— Phase 2: Guided solution —\n"Given those principles: [paste Phase 1 output]\nNow solve the problem step by step, explicitly applying each principle you identified."',
     'role': 'You are a [ROLE]. A student presents you with the following problem. Solve it step by step at an upper-division undergraduate level:\n— Identify relevant physical laws.\n— Set up the governing equations.\n— Solve algebraically, then numerically.\n— Verify the answer with a sanity check or dimensional analysis.\n— Note any assumptions made.\n\nProblem: [your problem]',
     'fewshot': 'Solve optics problems using this exact format:\n\nEXAMPLE:\nProblem: An object is 30 cm in front of a concave mirror with focal length 10 cm. Find image distance.\nKnown: u = -30 cm, f = -10 cm (mirror convention)\nEquation: 1/v + 1/u = 1/f\nSolve: 1/v = 1/f - 1/u = 1/(-10) - 1/(-30) = -3/30 + 1/30 = -2/30\nResult: v = -15 cm (real image, 15 cm in front of mirror)\nCheck: |m| = |v/u| = 15/30 = 0.5 ✓\n\nNow solve using the same format:\nProblem: [your problem]',
@@ -728,4 +780,3 @@ Problem: [your problem]</pre>
 </script>
 </body>
 </html>
-
