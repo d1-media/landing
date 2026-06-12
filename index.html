@@ -1,139 +1,782 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>D1 Media — Coming Soon</title>
-  <meta name="description" content="D1 Media temporary landing page." />
-  <meta property="og:title" content="D1 Media — Work in Progress" />
-  <meta property="og:description" content="D1 Media temporary landing page." />
-  <meta name="theme-color" content="#0e1019" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STEM Prompt Engineering Guide — Physics, Optics &amp; Engineering</title>
+  <meta name="description" content="A practical guide to crafting effective prompts for solving math problems in physics, optics, and engineering using AI language models.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
   <style>
-    :root{
-      --bg-1:#0e1019;     /* page background start */
-      --bg-2:#1a1f3b;     /* page background end */
-      --card:#0f1326cc;   /* translucent card */
-      --fg:#e8ecff;       /* main text */
-      --muted:#b7c0e3;    /* secondary text */
-      --accent:#8ef0ff;   /* accent color */
-      --accent-2:#8b5cf6; /* subtle gradient accent */
-      --radius:1.25rem;
-      --shadow:0 10px 25px rgba(0,0,0,.35);
+    :root {
+      --bg-page:     #f2f2f0;
+      --bg-card:     #ffffff;
+      --bg-surface:  #f0f0ee;
+      --bg-code:     #f0f0ee;
+      --bg-info:     #e6f1fb;
+      --bg-warning:  #fef3e2;
+      --text-pri:    #1a1a17;
+      --text-sec:    #5c5c58;
+      --text-ter:    #8c8c87;
+      --text-info:   #185fa5;
+      --text-warn:   #7a4a0a;
+      --border-lt:   rgba(0,0,0,0.09);
+      --border-md:   rgba(0,0,0,0.16);
+      --border-info: #85b7eb;
+      --accent-line: #185fa5;
+      --badge-teal-bg:   #e1f5ee;
+      --badge-teal-txt:  #0f6e56;
+      --badge-coral-bg:  #faece7;
+      --badge-coral-txt: #8b3519;
+      --badge-amber-bg:  #faeeda;
+      --badge-amber-txt: #7a4a0a;
+      --badge-blue-bg:   #e6f1fb;
+      --badge-blue-txt:  #185fa5;
+      --r-md: 8px;
+      --r-lg: 12px;
+      --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --mono: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
     }
-    * { box-sizing: border-box; }
-    html,body{ height:100%; }
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      color:var(--fg);
-      background: radial-gradient(1200px 800px at 10% 10%, rgba(142,240,255,.18), transparent 60%),
-                  radial-gradient(800px 600px at 90% 20%, rgba(139,92,246,.12), transparent 55%),
-                  linear-gradient(160deg, var(--bg-1), var(--bg-2));
-      display:grid;
-      place-items:center;
-      padding: 32px;
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-page:     #111110;
+        --bg-card:     #1e1e1b;
+        --bg-surface:  #272724;
+        --bg-code:     #272724;
+        --bg-info:     #08253d;
+        --bg-warning:  #301c06;
+        --text-pri:    #e8e8e3;
+        --text-sec:    #9e9e98;
+        --text-ter:    #64645e;
+        --text-info:   #90c8f0;
+        --text-warn:   #e8a838;
+        --border-lt:   rgba(255,255,255,0.08);
+        --border-md:   rgba(255,255,255,0.14);
+        --border-info: #378add;
+        --accent-line: #378add;
+        --badge-teal-bg:   #04251c;
+        --badge-teal-txt:  #6ecfab;
+        --badge-coral-bg:  #321008;
+        --badge-coral-txt: #e09070;
+        --badge-amber-bg:  #301c06;
+        --badge-amber-txt: #e8a838;
+        --badge-blue-bg:   #08253d;
+        --badge-blue-txt:  #90c8f0;
+      }
     }
-    main{
-      width:min(860px, 100%);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)) , var(--card);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: clamp(28px, 6vw, 56px);
-    }
-    .wordmark{
-      font-size: clamp(40px, 8vw, 72px);
-      font-weight: 800;
-      line-height: 1;
-      letter-spacing: -0.02em;
-      display: inline-flex;
-      align-items: baseline;
-      gap: .1em;
-    }
-    .wordmark .dot{ color: var(--accent); text-shadow: 0 0 24px rgba(142,240,255,.6); }
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:.5rem;
-      padding:.4rem .7rem;
-      border-radius:999px;
-      background: linear-gradient(90deg, rgba(142,240,255,.18), rgba(139,92,246,.18));
-      border: 1px solid rgba(255,255,255,.12);
-      font-size:.85rem;
-      color:var(--muted);
-    }
-    .lead{
-      margin-top: 18px;
-      font-size: clamp(18px, 2.5vw, 22px);
-      color: var(--fg);
-    }
-    .note{
-      margin-top: 10px;
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--sans);
       font-size: 16px;
-      color: var(--muted);
-      font-style: italic;
+      background: var(--bg-page);
+      color: var(--text-pri);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
-    .cta-row{
-      margin-top: clamp(20px, 3.5vw, 32px);
-      display:flex; flex-wrap: wrap; gap:12px;
+
+    .page-wrap {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 2rem 1rem 3rem;
     }
-    .btn{
-      --btn-bg: linear-gradient(90deg, var(--accent), #c8f3ff);
-      border: none;
-      background: var(--btn-bg);
-      color:#04141a;
-      padding: 12px 18px;
-      font-weight: 700;
-      border-radius: 12px;
-      cursor:pointer;
-      box-shadow: 0 6px 16px rgba(0,0,0,.25);
-      text-decoration:none;
-      transition: transform .12s ease;
+    @media (min-width: 600px) {
+      .page-wrap { padding: 2.5rem 1.5rem 4rem; }
     }
-    .btn:hover{ transform: translateY(-1px); }
-    .btn.secondary{
-      background: transparent;
-      color: var(--muted);
-      border: 1px solid rgba(255,255,255,.14);
-      box-shadow: none;
+
+    /* Header */
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-ter);
+      margin-bottom: 0.4rem;
     }
-    footer{
-      margin-top: clamp(28px, 4vw, 40px);
-      border-top: 1px dashed rgba(255,255,255,.14);
-      padding-top: 16px;
-      display:flex; justify-content: space-between; align-items:center; gap:12px; flex-wrap: wrap;
-      color: var(--muted);
+    h1 {
+      font-size: clamp(20px, 5vw, 26px);
+      font-weight: 500;
+      color: var(--text-pri);
+      margin-bottom: 0.5rem;
+      line-height: 1.25;
+    }
+    .intro-text {
       font-size: 14px;
+      color: var(--text-sec);
+      line-height: 1.7;
+      margin-bottom: 2rem;
     }
-    .pill{ padding:.25rem .6rem; border:1px solid rgba(255,255,255,.12); border-radius:999px; }
-    @media (prefers-reduced-motion: reduce){
-      .btn{ transition: none; }
+
+    /* Tab bar */
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+      margin-bottom: 1.25rem;
+    }
+    .tab-bar::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      flex-shrink: 0;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 7px 14px;
+      border-radius: var(--r-md);
+      border: 0.5px solid var(--border-md);
+      background: var(--bg-card);
+      color: var(--text-sec);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.12s, color 0.12s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tab-btn:hover { background: var(--bg-surface); color: var(--text-pri); }
+    .tab-btn.active {
+      background: var(--bg-info);
+      color: var(--text-info);
+      border-color: transparent;
+    }
+
+    /* Tab panels */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 0.5px solid var(--border-lt);
+      border-radius: var(--r-lg);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .card-head { margin-bottom: 0.6rem; }
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: var(--r-md);
+    }
+    .badge-blue   { background: var(--badge-blue-bg);   color: var(--badge-blue-txt); }
+    .badge-teal   { background: var(--badge-teal-bg);   color: var(--badge-teal-txt); }
+    .badge-coral  { background: var(--badge-coral-bg);  color: var(--badge-coral-txt); }
+    .badge-amber  { background: var(--badge-amber-bg);  color: var(--badge-amber-txt); }
+
+    .tech-name {
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--text-pri);
+      margin: 0.5rem 0 0.65rem;
+    }
+    .tech-desc {
+      font-size: 14px;
+      color: var(--text-sec);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+    .sub-label {
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-ter);
+      margin-bottom: 0.4rem;
+    }
+    .when-list {
+      padding-left: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .when-list li {
+      font-size: 13px;
+      color: var(--text-sec);
+      margin-bottom: 0.3rem;
+      line-height: 1.55;
+    }
+
+    /* Code examples */
+    .example-block { margin-top: 0.75rem; }
+    .example-block + .example-block { margin-top: 1rem; }
+    .example-box {
+      background: var(--bg-code);
+      border-radius: var(--r-md);
+      border-left: 2.5px solid var(--accent-line);
+      padding: 0.9rem 1rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .example-box pre {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-pri);
+      line-height: 1.7;
+      white-space: pre;
+      min-width: 0;
+    }
+    @media (max-width: 480px) {
+      .example-box pre { font-size: 11px; }
+    }
+
+    /* Copy button */
+    .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 0.6rem;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: var(--r-md);
+      border: 0.5px solid var(--border-md);
+      background: var(--bg-card);
+      color: var(--text-sec);
+      cursor: pointer;
+      transition: background 0.12s, color 0.12s;
+      -webkit-tap-highlight-color: transparent;
+      min-height: 32px;
+    }
+    .copy-btn:hover { background: var(--bg-surface); color: var(--text-pri); }
+    .copy-btn.copied {
+      background: var(--badge-teal-bg);
+      color: var(--badge-teal-txt);
+      border-color: transparent;
+    }
+    .copy-btn i { font-size: 14px; }
+
+    /* Divider */
+    .divider {
+      height: 0.5px;
+      background: var(--border-lt);
+      margin: 2rem 0;
+    }
+
+    /* Section headings */
+    h2 {
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--text-pri);
+      margin-bottom: 0.75rem;
+    }
+
+    /* Tip cards */
+    .tip-card {
+      background: var(--bg-warning);
+      border-radius: var(--r-md);
+      border: 0.5px solid var(--border-lt);
+      padding: 0.8rem 1rem;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 0.65rem;
+    }
+    .tip-card i {
+      font-size: 16px;
+      color: var(--text-warn);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .tip-card p {
+      font-size: 13px;
+      color: var(--text-pri);
+      line-height: 1.65;
+    }
+    .tip-card strong { font-weight: 500; }
+
+    /* Phase grid */
+    .phase-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin: 0.75rem 0;
+    }
+    @media (min-width: 480px) {
+      .phase-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    .phase-box {
+      background: var(--bg-surface);
+      border: 0.5px solid var(--border-lt);
+      border-radius: var(--r-md);
+      padding: 0.75rem;
+      text-align: center;
+    }
+    .phase-num {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-ter);
+      margin-bottom: 4px;
+    }
+    .phase-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-pri);
+      line-height: 1.4;
+    }
+
+    /* Section description text */
+    .section-desc {
+      font-size: 13px;
+      color: var(--text-sec);
+      line-height: 1.7;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 0.5px solid var(--border-lt);
+    }
+    footer p {
+      font-size: 11px;
+      color: var(--text-ter);
+      line-height: 1.7;
+    }
+    footer a {
+      color: var(--text-info);
+      text-decoration: none;
+    }
+    footer a:hover { text-decoration: underline; }
+    .source-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem 0.45rem;
+      align-items: center;
+      font-size: 11px;
+      color: var(--text-ter);
+      line-height: 1.7;
     }
   </style>
 </head>
 <body>
-  <main role="main">
+<div class="page-wrap">
 
-    <h1 class="wordmark" aria-label="D1 Media">
-      <span class="text">d1</span><span class="dot">.media</span>
-    </h1>
+  <p class="section-label">Reference guide</p>
+  <h1>Prompting for STEM math problems</h1>
+  <p class="intro-text">Physics · Optics · Engineering — six techniques and ready-to-copy templates for getting precise, auditable solutions from an AI language model. Built for students, tutors, engineers, and technically curious users who want cleaner setup, better unit tracking, and fewer hidden math mistakes.</p>
 
-    <p class="lead">Always, a work in progress...</p>
- 
-    <div class="cta-row">
-      <a class="btn" href="mailto:duane@d1.media" aria-label="Email D1 Media">Inquiries</a>
+  <div class="card" aria-labelledby="start-here-title">
+    <div class="card-head"><span class="badge badge-teal">Start here</span></div>
+    <p class="tech-name" id="start-here-title">Best general-purpose STEM prompt</p>
+    <p class="tech-desc">Use this when you want one reliable default prompt for physics, optics, engineering, or applied math problems.</p>
+    <div class="example-block">
+      <div class="example-box">
+        <pre>You are solving a physics or engineering problem.
+1. List knowns and unknowns with units.
+2. Identify the governing law or equation.
+3. State assumptions and sign conventions.
+4. Solve algebraically before substituting numbers.
+5. Substitute values with units.
+6. Check dimensional consistency and reasonableness.
+7. Give the final answer clearly.
+
+Problem: [paste problem here]</pre>
+      </div>
+      <button class="copy-btn" onclick="copyTemplate('start-here')">
+        <i class="ti ti-copy" aria-hidden="true"></i> Copy template
+      </button>
     </div>
+  </div>
 
-    <footer>
-      <span>&copy; <span id="y"></span> D1 Media</span>
-      <span class="pill">d1.media</span>
-    </footer>
-  </main>
-  <script>
-    // Set current year in footer (keeps the markup clean)
-    document.getElementById('y').textContent = new Date().getFullYear();
-  </script>
+  <div class="tab-bar" role="tablist" aria-label="Prompting techniques">
+    <button class="tab-btn active" role="tab" aria-selected="true"  aria-controls="panel-cot"      onclick="showTab('cot')">Show your work</button>
+    <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="panel-stepback" onclick="showTab('stepback')">Step-back</button>
+    <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="panel-role"     onclick="showTab('role')">Role prompting</button>
+    <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="panel-fewshot"  onclick="showTab('fewshot')">Few-shot</button>
+    <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="panel-pot"      onclick="showTab('pot')">Program of thought</button>
+    <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="panel-meta"     onclick="showTab('meta')">Meta prompting</button>
+  </div>
+
+  <!-- TAB: Chain of thought -->
+  <div class="tab-panel active" id="panel-cot" role="tabpanel">
+    <div class="card">
+      <div class="card-head"><span class="badge badge-blue">Most effective</span></div>
+      <p class="tech-name">Show-your-work prompting</p>
+      <p class="tech-desc">Ask the model to show the key intermediate calculations, units, assumptions, and checks before giving the final answer. The goal is not hidden reasoning; the goal is an auditable solution path that makes formula choice, substitutions, and unit handling easier to verify.</p>
+
+      <p class="sub-label">Best for</p>
+      <ul class="when-list">
+        <li>Multi-step optics problems (ray tracing, lens equations, interference)</li>
+        <li>Force and moment analysis in structural engineering</li>
+        <li>Circuit analysis with Kirchhoff's laws</li>
+        <li>Any problem where a wrong intermediate result would cascade</li>
+      </ul>
+
+      <p class="sub-label">Zero-shot trigger phrase</p>
+      <div class="example-block">
+        <div class="example-box">
+          <pre>Append this to any question:
+"Solve this step by step. Show the governing equations,
+substitutions, units, intermediate numerical results,
+and final answer. Keep the reasoning concise but
+complete enough to audit."</pre>
+        </div>
+        <button class="copy-btn" onclick="copyTemplate('cot-zero')">
+          <i class="ti ti-copy" aria-hidden="true"></i> Copy phrase
+        </button>
+      </div>
+
+      <p class="sub-label" style="margin-top:1rem;">Full CoT template for physics</p>
+      <div class="example-block">
+        <div class="example-box">
+          <pre>You are solving a physics problem. Show the work clearly:
+1. List all known variables with units.
+2. Identify the governing equation(s).
+3. State assumptions and sign conventions.
+4. Solve algebraically before substituting numbers.
+5. Substitute values and compute each step.
+6. Check units using dimensional analysis.
+7. State the final answer with correct significant
+   figures and units.
+
+Problem: [paste your problem here]</pre>
+        </div>
+        <button class="copy-btn" onclick="copyTemplate('cot-full')">
+          <i class="ti ti-copy" aria-hidden="true"></i> Copy template
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: Step-back -->
+  <div class="tab-panel" id="panel-stepback" role="tabpanel">
+    <div class="card">
+      <div class="card-head"><span class="badge badge-teal">Strong for STEM</span></div>
+      <p class="tech-name">Step-back prompting</p>
+      <p class="tech-desc">Before solving, ask the model to first identify the underlying physics principles or engineering concepts involved. Grounding in first principles reduces hallucinations and ensures the right formula family is invoked. In the original Step-Back Prompting paper, the method improved PaLM-2L results on MMLU Physics and Chemistry by 7 and 11 percentage points, respectively.</p>
+
+      <p class="sub-label">Best for</p>
+      <ul class="when-list">
+        <li>Problems where the right formula isn't obvious (e.g., non-trivial optics setups)</li>
+        <li>Wave optics vs. geometric optics boundary questions</li>
+        <li>Thermodynamics + fluid mechanics combined problems</li>
+        <li>Any problem spanning multiple physics domains</li>
+      </ul>
+
+      <p class="sub-label">Two-phase template</p>
+      <div class="example-block">
+        <div class="example-box">
+          <pre>— Phase 1: Principle extraction —
+"You are an expert physicist. What are the fundamental
+principles and governing equations relevant to solving
+the following problem? Do not solve it yet.
+
+Problem: [your problem]"
+
+— Phase 2: Guided solution —
+"Given those principles: [paste Phase 1 output]
+Now solve the problem step by step, explicitly
+applying each principle you identified."</pre>
+        </div>
+        <button class="copy-btn" onclick="copyTemplate('stepback')">
+          <i class="ti ti-copy" aria-hidden="true"></i> Copy template
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: Role prompting -->
+  <div class="tab-panel" id="panel-role" role="tabpanel">
+    <div class="card">
+      <div class="card-head"><span class="badge badge-blue">Sets the register</span></div>
+      <p class="tech-name">Role prompting</p>
+      <p class="tech-desc">Assign the model an expert persona relevant to your problem. This steers the model toward domain-specific vocabulary, correct formula selection, and appropriate precision. The more specific the role, the more calibrated the output — "senior optical engineer" elicits different behavior than just "physicist."</p>
+
+      <p class="sub-label">Effective role descriptions for STEM</p>
+      <ul class="when-list">
+        <li>"You are a PhD physicist specializing in electromagnetic optics."</li>
+        <li>"You are a licensed structural engineer solving load distribution problems."</li>
+        <li>"You are an optical system designer with expertise in Gaussian beam propagation."</li>
+        <li>"You are a professor teaching engineering mechanics to upper-division undergraduates."</li>
+      </ul>
+
+      <p class="sub-label">Role + CoT combined template</p>
+      <div class="example-block">
+        <div class="example-box">
+          <pre>You are a [ROLE]. A student presents you with the
+following problem. Solve it step by step at an
+upper-division undergraduate level:
+— Identify relevant physical laws.
+— Set up the governing equations.
+— Solve algebraically, then numerically.
+— Verify the answer with a sanity check or
+  dimensional analysis.
+— Note any assumptions made.
+
+Problem: [your problem]</pre>
+        </div>
+        <button class="copy-btn" onclick="copyTemplate('role')">
+          <i class="ti ti-copy" aria-hidden="true"></i> Copy template
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: Few-shot -->
+  <div class="tab-panel" id="panel-fewshot" role="tabpanel">
+    <div class="card">
+      <div class="card-head"><span class="badge badge-teal">Pattern matching</span></div>
+      <p class="tech-name">Few-shot prompting</p>
+      <p class="tech-desc">Provide one or two fully worked examples before your actual question. The model learns the desired format, level of rigor, and notation style from those examples — extremely useful when you need consistent output structure across a set of similar problems.</p>
+
+      <p class="sub-label">Best for</p>
+      <ul class="when-list">
+        <li>Batches of similar problem types (multiple lens problems, beam problems)</li>
+        <li>When you need a specific notation or LaTeX format in the output</li>
+        <li>Teaching yourself — the worked examples become a study resource too</li>
+        <li>Enforcing a strict sign convention across many problems</li>
+      </ul>
+
+      <p class="sub-label">One-shot optics template</p>
+      <div class="example-block">
+        <div class="example-box">
+          <pre>Solve optics problems using this exact format:
+
+EXAMPLE:
+Problem: An object is 30 cm in front of a concave
+  mirror with focal length 10 cm. Find image distance.
+Known: u = -30 cm, f = -10 cm (mirror convention)
+Equation: 1/v + 1/u = 1/f
+Solve: 1/v = 1/f - 1/u
+      = 1/(-10) - 1/(-30)
+      = -3/30 + 1/30 = -2/30
+Result: v = -15 cm (real image, 15 cm in front)
+Check: |m| = |v/u| = 15/30 = 0.5 ✓
+
+Now solve using the same format:
+Problem: [your problem]</pre>
+        </div>
+        <button class="copy-btn" onclick="copyTemplate('fewshot')">
+          <i class="ti ti-copy" aria-hidden="true"></i> Copy template
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: Program of thought -->
+  <div class="tab-panel" id="panel-pot" role="tabpanel">
+    <div class="card">
+      <div class="card-head"><span class="badge badge-coral">Computation-heavy problems</span></div>
+      <p class="tech-name">Program of thought (PoT) prompting</p>
+      <p class="tech-desc">Ask the model to express the solution as executable Python code rather than prose arithmetic. This offloads numerical computation to an interpreter, eliminating floating-point reasoning errors that LLMs can make. Ideal for problems with many numerical substitutions or iterative calculations.</p>
+
+      <p class="sub-label">Best for</p>
+      <ul class="when-list">
+        <li>Ray transfer matrix (ABCD matrix) optics chains</li>
+        <li>Beam deflection with numerical integration</li>
+        <li>Signal processing or Fourier optics calculations</li>
+        <li>Any problem with more than 3–4 numerical substitutions</li>
+      </ul>
+
+      <p class="sub-label">PoT template</p>
+      <div class="example-block">
+        <div class="example-box">
+          <pre>Solve the following engineering/physics problem by
+writing Python code.
+Requirements:
+— Define all known variables with comments
+  showing units.
+— Use scipy or numpy if needed.
+— Print each intermediate result labeled with its
+  physical meaning and units.
+— Print the final answer clearly.
+— Do not use symbolic libraries; compute numerically.
+
+Problem: [your problem]</pre>
+        </div>
+        <button class="copy-btn" onclick="copyTemplate('pot')">
+          <i class="ti ti-copy" aria-hidden="true"></i> Copy template
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: Meta prompting -->
+  <div class="tab-panel" id="panel-meta" role="tabpanel">
+    <div class="card">
+      <div class="card-head"><span class="badge badge-amber">Reusable structure</span></div>
+      <p class="tech-name">Meta prompting</p>
+      <p class="tech-desc">Instead of solving a specific problem, define a reusable procedural template the model should follow for any problem of a given type. Think of it as writing a solver specification rather than a one-off question. Pair it with self-consistency (run the same prompt 2–3 times and compare answers) for high-stakes calculations.</p>
+
+      <p class="sub-label">Best for</p>
+      <ul class="when-list">
+        <li>Building a consistent workflow for a recurring problem class</li>
+        <li>When you want to check your own solutions against the model's</li>
+        <li>Complex multi-domain problems (e.g., thermo-optics, opto-mechanics)</li>
+        <li>Setting up a "session" before feeding it a problem set</li>
+      </ul>
+
+      <p class="sub-label">Meta template — 7-step STEM solver</p>
+      <div class="example-block">
+        <div class="example-box">
+          <pre>When I give you a physics or engineering problem,
+always follow this procedure:
+
+Step 1 — Classify: identify the domain (mechanics,
+  optics, thermodynamics, etc.)
+Step 2 — Draw: describe a labeled diagram or
+  free-body diagram in words.
+Step 3 — Formulate: list all applicable equations
+  with variable definitions.
+Step 4 — Solve: work algebraically before
+  substituting numbers.
+Step 5 — Compute: substitute values, track units
+  at every step.
+Step 6 — Verify: dimensional analysis +
+  order-of-magnitude sanity check.
+Step 7 — Summarize: one-line result with value,
+  units, and direction (if a vector).
+
+Acknowledge this procedure, then wait for my
+first problem.</pre>
+        </div>
+        <button class="copy-btn" onclick="copyTemplate('meta')">
+          <i class="ti ti-copy" aria-hidden="true"></i> Copy template
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- General rules -->
+  <h2>General rules for STEM prompts</h2>
+
+  <div class="tip-card">
+    <i class="ti ti-shield-check" aria-hidden="true"></i>
+    <p><strong>Verify important answers independently.</strong> For graded work, engineering decisions, or safety-critical calculations, check the final result with a trusted source, calculator, code, or human expert. AI models can still choose the wrong equation, mishandle signs, or make arithmetic mistakes.</p>
+  </div>
+
+  <div class="tip-card">
+    <i class="ti ti-ruler-measure" aria-hidden="true"></i>
+    <p><strong>Always state units and sign conventions explicitly.</strong> Never assume the model will choose your convention. Write "u = −30 cm (object distance, negative = real object)" rather than just "u = 30 cm."</p>
+  </div>
+
+  <div class="tip-card">
+    <i class="ti ti-variable" aria-hidden="true"></i>
+    <p><strong>Separate known variables from unknowns.</strong> List them before the question: "Given: λ = 550 nm, d = 0.3 mm, L = 1.2 m. Find: fringe spacing Δy."</p>
+  </div>
+
+  <div class="tip-card">
+    <i class="ti ti-alert-triangle" aria-hidden="true"></i>
+    <p><strong>Request dimensional analysis as a mandatory check.</strong> Add: "After computing the final answer, verify it is dimensionally consistent." This catches formula-selection errors before they reach you.</p>
+  </div>
+
+  <div class="tip-card">
+    <i class="ti ti-refresh" aria-hidden="true"></i>
+    <p><strong>Use self-consistency for critical results.</strong> Run the same prompt 2–3 times. If answers diverge, ask the model to identify which step differs and resolve the conflict explicitly.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 4-phase model -->
+  <h2>The 4-phase physics problem-solving model</h2>
+  <p class="section-desc">Building this structure into any prompt aligns the model with how expert physicists actually approach problems — reducing both formula-recall errors and reasoning shortcuts.</p>
+
+  <div class="phase-grid">
+    <div class="phase-box"><p class="phase-num">Phase 1</p><p class="phase-name">Problem representation</p></div>
+    <div class="phase-box"><p class="phase-num">Phase 2</p><p class="phase-name">Strategy selection</p></div>
+    <div class="phase-box"><p class="phase-num">Phase 3</p><p class="phase-name">Strategy execution</p></div>
+    <div class="phase-box"><p class="phase-num">Phase 4</p><p class="phase-name">Evaluation</p></div>
+  </div>
+
+  <div class="example-block">
+    <div class="example-box">
+      <pre>Solve this problem in 4 phases:
+1. Representation — restate the problem in your own
+   words, draw a word diagram, list knowns/unknowns.
+2. Strategy — identify which law or principle applies
+   and why; rule out alternatives.
+3. Execution — solve step by step with units
+   at every line.
+4. Evaluation — does the answer make physical sense?
+   Check limiting cases if applicable.
+
+Problem: [your problem]</pre>
+    </div>
+    <button class="copy-btn" onclick="copyTemplate('4phase')">
+      <i class="ti ti-copy" aria-hidden="true"></i> Copy template
+    </button>
+  </div>
+
+  <footer>
+    <div class="source-list" aria-label="Sources">
+      <strong>Sources:</strong>
+      <a href="https://www.promptingguide.ai/" target="_blank" rel="noopener">Prompt Engineering Guide</a>
+      <span>·</span>
+      <a href="https://learnprompting.org/docs/reliability/math" target="_blank" rel="noopener">Learn Prompting: MathPrompter</a>
+      <span>·</span>
+      <a href="https://arxiv.org/abs/2310.06117" target="_blank" rel="noopener">Step-Back Prompting</a>
+      <span>·</span>
+      <a href="https://arxiv.org/abs/2506.08625" target="_blank" rel="noopener">RAISE paper</a>
+      <span>·</span>
+      <a href="https://arxiv.org/abs/2505.09438" target="_blank" rel="noopener">Physics Olympiad LLM study</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  var templates = {
+    'start-here': 'You are solving a physics or engineering problem.\n1. List knowns and unknowns with units.\n2. Identify the governing law or equation.\n3. State assumptions and sign conventions.\n4. Solve algebraically before substituting numbers.\n5. Substitute values with units.\n6. Check dimensional consistency and reasonableness.\n7. Give the final answer clearly.\n\nProblem: [paste problem here]',
+    'cot-zero': 'Solve this step by step. Show the governing equations, substitutions, units, intermediate numerical results, and final answer. Keep the reasoning concise but complete enough to audit.',
+    'cot-full': 'You are solving a physics problem. Show the work clearly:\n1. List all known variables with units.\n2. Identify the governing equation(s).\n3. State assumptions and sign conventions.\n4. Solve algebraically before substituting numbers.\n5. Substitute values and compute each step.\n6. Check units using dimensional analysis.\n7. State the final answer with correct significant figures and units.\n\nProblem: [paste your problem here]',
+    'stepback': '— Phase 1: Principle extraction —\n"You are an expert physicist. What are the fundamental principles and governing equations relevant to solving the following problem? Do not solve it yet.\n\nProblem: [your problem]"\n\n— Phase 2: Guided solution —\n"Given those principles: [paste Phase 1 output]\nNow solve the problem step by step, explicitly applying each principle you identified."',
+    'role': 'You are a [ROLE]. A student presents you with the following problem. Solve it step by step at an upper-division undergraduate level:\n— Identify relevant physical laws.\n— Set up the governing equations.\n— Solve algebraically, then numerically.\n— Verify the answer with a sanity check or dimensional analysis.\n— Note any assumptions made.\n\nProblem: [your problem]',
+    'fewshot': 'Solve optics problems using this exact format:\n\nEXAMPLE:\nProblem: An object is 30 cm in front of a concave mirror with focal length 10 cm. Find image distance.\nKnown: u = -30 cm, f = -10 cm (mirror convention)\nEquation: 1/v + 1/u = 1/f\nSolve: 1/v = 1/f - 1/u = 1/(-10) - 1/(-30) = -3/30 + 1/30 = -2/30\nResult: v = -15 cm (real image, 15 cm in front of mirror)\nCheck: |m| = |v/u| = 15/30 = 0.5 ✓\n\nNow solve using the same format:\nProblem: [your problem]',
+    'pot': 'Solve the following engineering/physics problem by writing Python code.\nRequirements:\n— Define all known variables with comments showing units.\n— Use scipy or numpy if needed.\n— Print each intermediate result labeled with its physical meaning and units.\n— Print the final answer clearly.\n— Do not use symbolic libraries; compute numerically.\n\nProblem: [your problem]',
+    'meta': 'When I give you a physics or engineering problem, always follow this procedure:\n\nStep 1 — Classify: identify the domain (mechanics, optics, thermodynamics, etc.)\nStep 2 — Draw: describe a labeled diagram or free-body diagram in words.\nStep 3 — Formulate: list all applicable equations with variable definitions.\nStep 4 — Solve: work algebraically before substituting numbers.\nStep 5 — Compute: substitute values, track units at every step.\nStep 6 — Verify: dimensional analysis + order-of-magnitude sanity check.\nStep 7 — Summarize: one-line result with value, units, and direction (if a vector).\n\nAcknowledge this procedure, then wait for my first problem.',
+    '4phase': 'Solve this problem in 4 phases:\n1. Representation — restate the problem in your own words, draw a word diagram, list knowns/unknowns.\n2. Strategy — identify which law or principle applies and why; rule out alternatives.\n3. Execution — solve step by step with units at every line.\n4. Evaluation — does the answer make physical sense? Check limiting cases if applicable.\n\nProblem: [your problem]'
+  };
+
+  function copyTemplate(key) {
+    var text = templates[key];
+    if (!text) return;
+    var btn = event.currentTarget;
+    var icon = btn.querySelector('i');
+    navigator.clipboard.writeText(text).then(function() {
+      btn.classList.add('copied');
+      if (icon) { icon.className = 'ti ti-check'; }
+      btn.childNodes[btn.childNodes.length - 1].textContent = ' Copied!';
+      setTimeout(function() {
+        btn.classList.remove('copied');
+        if (icon) { icon.className = 'ti ti-copy'; }
+        btn.childNodes[btn.childNodes.length - 1].textContent = key === 'cot-zero' ? ' Copy phrase' : ' Copy template';
+      }, 2000);
+    }).catch(function() {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.classList.add('copied');
+      if (icon) { icon.className = 'ti ti-check'; }
+      btn.childNodes[btn.childNodes.length - 1].textContent = ' Copied!';
+      setTimeout(function() {
+        btn.classList.remove('copied');
+        if (icon) { icon.className = 'ti ti-copy'; }
+        btn.childNodes[btn.childNodes.length - 1].textContent = key === 'cot-zero' ? ' Copy phrase' : ' Copy template';
+      }, 2000);
+    });
+  }
+
+  function showTab(id) {
+    var ids = ['cot','stepback','role','fewshot','pot','meta'];
+    ids.forEach(function(t) {
+      var panel = document.getElementById('panel-' + t);
+      if (panel) panel.classList.toggle('active', t === id);
+    });
+    document.querySelectorAll('.tab-bar .tab-btn').forEach(function(btn) {
+      var match = btn.getAttribute('onclick') === "showTab('" + id + "')";
+      btn.classList.toggle('active', match);
+      btn.setAttribute('aria-selected', match ? 'true' : 'false');
+    });
+    var activeBtn = document.querySelector(".tab-btn.active");
+    if (activeBtn) activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
+</script>
 </body>
 </html>
-
