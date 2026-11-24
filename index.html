@@ -14,7 +14,7 @@
 :root{--bg:#14213D;--ink:#F7F5F0;--muted:#D6DAE4;--acc:#8FD0C8;--acc2:#D9B97A;--grid:#2E3E63;--disc:#1F5F5B;--bt:#14213D;--bb:#8FD0C8}
 html[data-palette="1"]{--bg:#1C1F26;--ink:#F4F2EC;--muted:#CFCFC8;--acc:#E0B96A;--acc2:#9BB7D4;--grid:#353A45;--disc:#5E4C22;--bt:#1C1F26;--bb:#E0B96A}
 html[data-palette="2"]{--bg:#0F2A24;--ink:#F3F1EA;--muted:#C9D6CF;--acc:#A8D8A0;--acc2:#E3C27A;--grid:#24433B;--disc:#2F6B4F;--bt:#0F2A24;--bb:#A8D8A0}
-html[data-palette="3"]{--bg:#E3E5E8;--ink:#14213D;--muted:#363F55;--acc:#1F5F5B;--acc2:#A8742A;--grid:#C2C7CF;--disc:#8FD0C8;--bt:#FFFFFF;--bb:#1F5F5B}
+html[data-palette="3"]{--bg:#BCC2CA;--ink:#101B33;--muted:#27324A;--acc:#14504C;--acc2:#8A5A12;--grid:#9AA2AD;--disc:#7FC0B6;--bt:#FFFFFF;--bb:#14504C}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column}
 .wrap{width:100%;max-width:1160px;margin:0 auto;padding-left:40px;padding-right:40px}
@@ -39,7 +39,7 @@ p{margin:0;max-width:520px;font-size:21px;line-height:1.5;color:var(--muted)}
 .n-ink{fill:var(--ink)}.n-acc{fill:var(--acc)}.n-gold{fill:var(--acc2)}
 .ring2{fill:none;stroke:var(--acc2);stroke-width:2}
 footer.wrap{padding-top:24px;padding-bottom:36px;border-top:1px solid var(--grid);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:15px;color:var(--muted)}
-body,body *{transition:background-color .55s ease,color .55s ease,border-color .55s ease,fill .55s ease,stroke .55s ease}
+body,body *{transition:background-color 1s ease,color 1s ease,border-color 1s ease,fill 1s ease,stroke 1s ease}
 @media (prefers-reduced-motion:reduce){body,body *{transition:none!important}}
 @media (max-width:600px){.wrap{padding-left:24px;padding-right:24px}header.wrap{padding-bottom:4px}main.wrap{padding-top:4px;gap:32px}}
 </style>
@@ -48,7 +48,7 @@ body,body *{transition:background-color .55s ease,color .55s ease,border-color .
 var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 if(rm){d.setAttribute('data-palette',i);return}
 var k=1;d.setAttribute('data-palette',(i+1)%n);
-var t=setInterval(function(){k++;d.setAttribute('data-palette',(i+k)%n);if(k===n)clearInterval(t)},650);})();
+var t=setInterval(function(){k++;d.setAttribute('data-palette',(i+k)%n);if(k===n)clearInterval(t)},1400);})();
 </script>
 </head>
 <body>
