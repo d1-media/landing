@@ -39,10 +39,16 @@ p{margin:0;max-width:520px;font-size:21px;line-height:1.5;color:var(--muted)}
 .n-ink{fill:var(--ink)}.n-acc{fill:var(--acc)}.n-gold{fill:var(--acc2)}
 .ring2{fill:none;stroke:var(--acc2);stroke-width:2}
 footer.wrap{padding-top:24px;padding-bottom:36px;border-top:1px solid var(--grid);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:15px;color:var(--muted)}
+body,body *{transition:background-color .55s ease,color .55s ease,border-color .55s ease,fill .55s ease,stroke .55s ease}
+@media (prefers-reduced-motion:reduce){body,body *{transition:none!important}}
 @media (max-width:600px){.wrap{padding-left:24px;padding-right:24px}header.wrap{padding-bottom:4px}main.wrap{padding-top:4px;gap:32px}}
 </style>
 <script>
-(function(){var n=4,i;try{var s=parseInt(localStorage.getItem('d1p'),10);i=isNaN(s)?Math.floor(Math.random()*n):(s+1)%n;localStorage.setItem('d1p',i)}catch(e){i=Math.floor(Math.random()*n)}document.documentElement.setAttribute('data-palette',i)})();
+(function(){var n=4,i,d=document.documentElement;try{var s=parseInt(localStorage.getItem('d1p'),10);i=isNaN(s)?Math.floor(Math.random()*n):(s+1)%n;localStorage.setItem('d1p',i)}catch(e){i=Math.floor(Math.random()*n)}
+var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(rm){d.setAttribute('data-palette',i);return}
+var k=1;d.setAttribute('data-palette',(i+1)%n);
+var t=setInterval(function(){k++;d.setAttribute('data-palette',(i+k)%n);if(k===n)clearInterval(t)},650);})();
 </script>
 </head>
 <body>
